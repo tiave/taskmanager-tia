@@ -15,7 +15,7 @@
 	</div>
 	<div class="col-md-4" style="padding:20px 0">
 		<form th:action="@{/logout}" method="post">
-			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+			<input type="submit" value="Kirjaudu ulos" class="btn btn-sm btn-danger"/>
 		</form>
 	</div>
     <table class="table table-striped">
@@ -29,7 +29,8 @@
     		<td th:text="${task.description}"></td>
     		<td th:text="${task.place}"></td>
     		<td th:text="${task.date}"></td>
-    		<td th:text="${task.priority.name}"></td> 		
+    		<td th:text="${task.priority.name}"></td> 	
+    		<td><a th:href="@{/edit/{id}(id=${task.id})}" class="btn btn-success">Muokkaa</a></td>	
  			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${task.id})}" class="btn btn-xs btn-danger">Poista</a></td>    		
     	</tr>
      </table>

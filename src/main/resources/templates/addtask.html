@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tehtävälista</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Uusi tehtävä</h1>
+	<div>
+		<form th:object="${task}" th:action="@{save}" action="#" method="post">
+		  	<label for="description">Tehtävä</label>
+			<input type="text" id="description" th:field="*{description}" />
+			<div style="clear: both; display: block; height: 15px;"></div>
+		  	<label for="place">Missä</label>
+			<input type="text" id="place" th:field="*{place}" />
+			<div style="clear: both; display: block; height: 15px;"></div>
+		  	<label for="date">Milloin</label>
+			<input type="text" th:field="*{date}" />
+			<div style="clear: both; display: block; height: 15px;"></div>
+			
+			<div style="clear: both; display: block; height: 10px;"></div>						
+		  	<label for="priolist">Priority</label>
+			 <select id="priolist" th:field="*{priority}" class="form-control">
+       			<option th:each="priority: ${priorities}" th:value="${priority.priorityId}" th:text="${priority.name}"></option>
+    		</select>
+			
+			<div style="clear: both; display: block; height: 15px;"></div>
+			<input type="submit" value="Save"></input>
+		</form>
+	</div>
+</body>
+</html>

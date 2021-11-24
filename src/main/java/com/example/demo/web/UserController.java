@@ -26,19 +26,12 @@ public class UserController {
     	model.addAttribute("signupform", new SignupForm());
         return "signup";
     }	
-    
-    /**
-     * Create new user
-     * Check if user already exists & form validation
-     * 
-     * @param signupForm
-     * @param bindingResult
-     * @return
-     */
+ 
+    // LUO UUSI KÄYTTÄJÄ
     @RequestMapping(value = "saveuser", method = RequestMethod.POST)
     public String save(@Valid @ModelAttribute("signupform") SignupForm signupForm, BindingResult bindingResult) {
     	if (!bindingResult.hasErrors()) { // validation errors
-    		if (signupForm.getPassword().equals(signupForm.getPasswordCheck())) { // check password match		
+    		if (signupForm.getPassword().equals(signupForm.getPasswordCheck())) { // SALASANAN OIKEELLISUUS		
 	    		String pwd = signupForm.getPassword();
 		    	BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
 		    	String hashPwd = bc.encode(pwd);
@@ -47,7 +40,7 @@ public class UserController {
 		    	newUser.setPasswordHash(hashPwd);
 		    	newUser.setUsername(signupForm.getUsername());
 		    	newUser.setRole("USER");
-		    	if (urepo.findByUsername(signupForm.getUsername()) == null) { // Check if user exists
+		    	if (urepo.findByUsername(signupForm.getUsername()) == null) { // TARKISTETAAN LÖYTYYKÖ KÄYTTÄJÄ JO
 		    		urepo.save(newUser);
 		    	}
 		    	else {
@@ -63,6 +56,7 @@ public class UserController {
     	else {
     		return "signup";
     	}
+    	
     	return "redirect:/login";    	
     } 
 }

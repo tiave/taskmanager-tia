@@ -24,31 +24,32 @@ public class TaskController {
 	@Autowired
 	private PriorityRepository prepo; 
 	
-	// Show all students
+	// KIRJAUTUMISSIVU
     @RequestMapping(value= {"/", "/login"})
     public String login() {	
         return "login";
     }	
 	
-	// Show all students
+	// TEHTÄVÄSIVU
     @RequestMapping(value="/tasklist")
     public String taskList(Model model) {	
         model.addAttribute("tasks", trepo.findAll());
         return "tasklist";
     }
   
-	// RESTful service to get all students
+	// REST, KAIKKI TEHTÄVÄT
     @RequestMapping(value="/tasks")
     public @ResponseBody List<Task> taskListRest() {	
         return (List<Task>) trepo.findAll();
     }    
 
-	// RESTful service to get student by id
+	// REST, TEHTÄVÄ ID:N KAUTTA
     @RequestMapping(value="/task/{id}", method = RequestMethod.GET)
     public @ResponseBody Optional<Task> findTaskRest(@PathVariable("id") Long taskId) {	
     	return trepo.findById(taskId);
     }      
     
+    // TEHTÄVÄN LISÄYS
     @RequestMapping(value = "/add")
     public String addBook(Model model){
     	model.addAttribute("task", new Task());
@@ -56,12 +57,14 @@ public class TaskController {
         return "addtask";
     }     
     
+    // TEHTÄVÄN TALLENNUS
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(Task task){
         trepo.save(task);
         return "redirect:tasklist";
     }    
 
+    // TEHTÄVÄN POISTO, VAIN ADMIN NÄKEE
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteTask(@PathVariable("id") Long id, Model model) {
@@ -69,6 +72,7 @@ public class TaskController {
         return "redirect:../tasklist";
     }     
     
+    // TEHTÄVÄN MUOKKAAMINEN
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editTask(@PathVariable("id") Long id, Model model) {
     	model.addAttribute("task", trepo.findById(id));
